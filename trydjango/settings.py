@@ -27,9 +27,12 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY",'django-insecure-5sef3e%!&-+pm$b
 DEBUG = str(os.environ.get("DEBUG")) == "1"
 
 ENV_ALLOWED_HOST = os.environ.get('DJANGO_ALLOWED_HOST') or None
-ALLOWED_HOSTS = [ '*' ]
+
+ALLOWED_HOSTS = []
 if not DEBUG:
-    ALLOWED_HOSTS = [ '*' ]
+    ALLOWED_HOSTS = [ ENV_ALLOWED_HOST ]
+
+print(f"sk: {SECRET_KEY}, db: {DEBUG}, eallowed: {ENV_ALLOWED_HOST}, allowed: {ALLOWED_HOSTS}")
 
 # Application definition
 # python manage.py makemigrations
