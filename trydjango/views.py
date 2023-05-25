@@ -7,13 +7,12 @@ def home_view(request):
     Take in a request
     Return HTML as a response
     """
-    article_obj = Article.objects.get(id=2)
     article_qs = Article.objects.all()
+    article_obj = Article.objects.all().first()
+    
     context = {
-        "title" : article_obj.title,
-        "content" : article_obj.content,
-        "id" : article_obj.id,
         "object_list": article_qs,
+        "object": article_obj,
     }
     HTML_STRING = render_to_string("home_view.html",context=context)
 
