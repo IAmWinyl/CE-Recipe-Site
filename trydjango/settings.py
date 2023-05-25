@@ -32,8 +32,6 @@ ALLOWED_HOSTS = []
 if not DEBUG:
     ALLOWED_HOSTS = [ ENV_ALLOWED_HOST ]
 
-print(f"sk: {SECRET_KEY}, db: {DEBUG}, eallowed: {ENV_ALLOWED_HOST}, allowed: {ALLOWED_HOSTS}")
-
 # Application definition
 # python manage.py makemigrations
 # python manage.py migrate
