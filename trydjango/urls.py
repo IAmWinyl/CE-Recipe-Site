@@ -30,8 +30,8 @@ from accounts.views import (
 
 urlpatterns = [
     path('',home_view),
-    path('articles/<int:id>/', article_detail_view),
-    path('articles/create/', article_create_view),
+    path('articles/create/', article_create_view, name="article-create"),
+    path('articles/<slug:slug>/', article_detail_view, name="article-detail"),
     path('articles/', article_search_view),
     path('login/', login_view),
     path('logout/', logout_view),

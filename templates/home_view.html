@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<a href='{% url "article-create" %}'>Create Article</a>
+
 <h1>{{ object.title }}: {{ object.id }}!</h1>
 <p>{{ object.content }}!</p>
 
 <ul>
     {% for x in object_list %}
         {% if x.title %}
-            <li><a href='/articles/{{ x.id }}/'>{{ x.title }} - {{ x.content }}</a></li>
+            <li><a href='{{ x.get_absolute_url }}'>{{ x.title }} - {{ x.content }}</a></li>
         {% endif %}
     {% endfor %}
 </ul>

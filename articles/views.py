@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
@@ -6,18 +7,11 @@ from .forms import ArticleForm
 
 def article_search_view(request):
     article_obj = None
-    query_dict = request.GET
-    
-    try:
-        query = int(query_dict.get('q'))
-    except:
-        query = None
-
-    if query is not None:
-        article_obj = Article.objects.get(id=query)
+    q = request.GET.get("q")
+    object_list = Article.objects.search(query=q)
         
     context = {
-        "object" : article_obj
+        "object_list" : object_list
     }
     return render(request,"articles/search.html",context=context)
 
@@ -29,20 +23,26 @@ def article_create_view(request):
     }
     if form.is_valid():
         article_obj = form.save()
-        context["form"] = ArticleForm()
+        context["object"] = article_obj
+        context["created"] = True
     
     return render(request,"articles/create.html",context=context)
 
 # Create your views here.
-def article_detail_view(request, id=None):
+def article_detail_view(request, slug=None):
     article_obj = None
     context = {}
-    if id is not None:
-        article_obj = Article.objects.get(id=id)
-        context = {
-            "article_obj" : article_obj,
-            "title" : article_obj.title,
-            "content" : article_obj.content,
-            "id" : article_obj.id,
-        }
+    if slug is not None:
+        try:
+            article_obj = Article.objects.get(slug=slug)
+        except Article.DoesNotExist:
+            raise Http404
+        except Article.MultipleObjectsReturned:
+            article_obj = Article.objects.get(slug=slug).first()
+        except:
+            raise Http404
+    context = {
+        "object" : article_obj,
+    }
+
     return render(request,"articles/details.html",context=context)
